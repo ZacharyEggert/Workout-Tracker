@@ -140,7 +140,7 @@ function populateChart(data) {
                 {
                     label: 'Exercises Performed - Durations',
                     backgroundColor: colors,
-                    data: durations_ind,
+                    data: durations,
                 },
             ],
         },
