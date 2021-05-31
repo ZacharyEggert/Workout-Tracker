@@ -7,10 +7,21 @@ router.get('/workouts', (req, res) => {
     log(req.body);
     try {
         Workout.find({})
-            .populate()
-            .then((workouts) => {
-                res.status(200).json(workouts);
-                log(workouts);
+            .populate('exercises')
+            .then((data) => {
+                dataWithTotal = data.map(workout => {
+                    const ex = [...workout.exercises]
+                    // console.log(ex);
+                    const totalDuration = ex.reduce((acc, cv) => {return (acc + cv.duration);}, 0, 0);
+                    workout._doc.totalDuration = totalDuration;
+                    return workout;
+                })
+
+                // console.log(dataWithTotal);
+                
+                res.json(dataWithTotal);
+
+                log(dataWithTotal);
             });
     } catch (err) {
         console.error(err);
